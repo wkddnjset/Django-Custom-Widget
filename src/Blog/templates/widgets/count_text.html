@@ -1,0 +1,8 @@
+{% include "django/forms/widgets/input.html" %}
+
+<span id="count_{{ widget.attrs.id }}"></span>
+<script>
+document.querySelector("#{{ widget.attrs.id }}").addEventListener("input", function(){
+    document.querySelector('#count_{{ widget.attrs.id }}').innerHTML = this.value.length+'글자';
+})
+</script>
