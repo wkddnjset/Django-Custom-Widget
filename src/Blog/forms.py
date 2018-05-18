@@ -1,7 +1,7 @@
 from django import forms
 from django.urls import reverse_lazy
 from .models import *
-from .widget import CountTextInput, AutoCompleteWidget, NaverMapPointWidget
+from .widget import CountTextInput, AutoCompleteWidget, NaverMapPointWidget, RateitjsWidget
 
 class CountryForm(forms.ModelForm):
     class Meta:
@@ -18,5 +18,6 @@ class PostForm(forms.ModelForm):
         fields = '__all__'
         widgets = {
             'country' : AutoCompleteWidget(ajax_url=reverse_lazy('blog:country_list')),
-            'location' : NaverMapPointWidget
+            'location' : NaverMapPointWidget,
+            'rating': RateitjsWidget
         }

@@ -45,7 +45,6 @@ class AutoCompleteWidget(forms.Select):
         return context
 
 # 네이버 지도 위젯
-
 class NaverMapPointWidget(forms.TextInput):
     BASE_LAT, BASE_LNG = '37.497921', '127.027636' # 강남역
     class Media:
@@ -78,3 +77,29 @@ class NaverMapPointWidget(forms.TextInput):
         html = render_to_string('widgets/naver_map_point_widget.html', context)
 
         return parent_html + html
+
+# 별점 위젯
+class RateitjsWidget(forms.TextInput):
+    input_type = 'rating'
+    template_name = 'widgets/rateitjs_number.html'
+
+    class Media:  # {{ forms.media }}로 템플릿에 삽입
+        css = {
+                  'all': [
+                      'Blog/templates/static/rateit.css', # rateit.css 경로
+                  ]
+              },
+        js = [
+            'https://code.jquery.com/jquery-3.3.1.js',  # 제이쿼리 CDN //배포시 설치해서 사용하는것이 좋음
+            # './templates/static/jquery.rateit.min.js', # rateit.js 경로
+        ]
+
+    # Rating Step 지정하기
+    def build_attrs(self, *args, **kwargs):
+        attrs = super().build_attrs(*args, **kwargs)
+        attrs.update({
+            'min': 0,
+            'max': 5,
+            'step': 1,
+        })
+        return attrs
