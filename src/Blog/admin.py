@@ -9,4 +9,5 @@ class CountryAdmin(admin.ModelAdmin):
 
 @admin.register(Post)
 class PostAdmin(admin.ModelAdmin):
+    list_display = ['country','when', 'location', 'photo', 'rating', 'message']
     form = PostForm

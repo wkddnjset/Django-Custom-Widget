@@ -17,7 +17,7 @@ class AutoCompleteWidget(forms.Select):
             ],
         }
         js = [
-            'https://code.jquery.com/jquery-3.3.1.js',
+            'https://code.jquery.com/jquery-2.2.4.min.js',
             'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js'
         ]
 
@@ -25,6 +25,12 @@ class AutoCompleteWidget(forms.Select):
     def __init__(self, ajax_url, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.ajax_url = ajax_url
+
+    # 스타일 정해주기
+    def build_attrs(self, *args, **kwargs):
+        context = super().build_attrs(*args, **kwargs)
+        context['style'] = 'min-width:250px;'
+        return context
 
     # ajax_url을 템플릿으로 넘겨주기
     def get_context(self, *args, **kwargs):
@@ -38,11 +44,7 @@ class AutoCompleteWidget(forms.Select):
         self.choices.queryset = self.choices.queryset.filter(id__in=existed_ids)
         return super().optgroups(name, value, attrs=None)
 
-    # 스타일 정해주기
-    def build_attrs(self, *args, **kwargs):
-        context = super().build_attrs(*args, **kwargs);
-        context['style'] = 'min-width:250px;'
-        return context
+
 
 # 네이버 지도 위젯
 class NaverMapPointWidget(forms.TextInput):
@@ -83,23 +85,23 @@ class RateitjsWidget(forms.TextInput):
     input_type = 'rating'
     template_name = 'widgets/rateitjs_number.html'
 
-    class Media:  # {{ forms.media }}로 템플릿에 삽입
+    class Media:
         css = {
                   'all': [
-                      'Blog/templates/static/rateit.css', # rateit.css 경로
-                  ]
-              },
+                      'rateit/rateit.css'
+                  ],
+              }
         js = [
-            'https://code.jquery.com/jquery-3.3.1.js',  # 제이쿼리 CDN //배포시 설치해서 사용하는것이 좋음
-            # './templates/static/jquery.rateit.min.js', # rateit.js 경로
+            'https://code.jquery.com/jquery-2.2.4.min.js',
+            'rateit/jquery.rateit.min.js'
         ]
 
     # Rating Step 지정하기
-    def build_attrs(self, *args, **kwargs):
-        attrs = super().build_attrs(*args, **kwargs)
-        attrs.update({
-            'min': 0,
-            'max': 5,
-            'step': 1,
-        })
-        return attrs
+    # def build_attrs(self, *args, **kwargs):
+    #     attrs = super().build_attrs(*args, **kwargs)
+    #     attrs.update({
+    #         'min': 0,
+    #         'max': 5,
+    #         'step': 1,
+    #     })
+    #     return attrs

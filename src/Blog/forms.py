@@ -17,7 +17,8 @@ class PostForm(forms.ModelForm):
         model = Post
         fields = '__all__'
         widgets = {
-            'country' : AutoCompleteWidget(ajax_url=reverse_lazy('blog:country_list')),
-            'location' : NaverMapPointWidget,
-            'rating': RateitjsWidget
+            'rating': RateitjsWidget,
+            'country': AutoCompleteWidget(ajax_url=reverse_lazy('blog:country_list')),
+            'location': NaverMapPointWidget,
+
         }
